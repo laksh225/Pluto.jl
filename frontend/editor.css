@@ -3,18 +3,13 @@
 @import url("https://cdn.jsdelivr.net/npm/fontsource-roboto-mono@3.0.3/500-normal.css");
 @import url("https://cdn.jsdelivr.net/npm/fontsource-roboto-mono@3.0.3/700-normal.css");
 
-/* @import url("https://fonts.googleapis.com/css?family=Vollkorn:600,600i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,greek,latin-ext,vietnamese"); */
-@import url("https://cdn.jsdelivr.net/npm/fontsource-vollkorn@3.0.3/600.css");
-@import url("https://cdn.jsdelivr.net/npm/fontsource-vollkorn@3.0.3/700.css");
-@import url("https://cdn.jsdelivr.net/npm/fontsource-vollkorn@3.0.3/900.css");
-
 /* @import url("https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"); */
 @import url("https://cdn.jsdelivr.net/npm/fontsource-alegreya-sans@3.0.10/400.css");
 @import url("https://cdn.jsdelivr.net/npm/fontsource-alegreya-sans@3.0.10/500.css");
 @import url("https://cdn.jsdelivr.net/npm/fontsource-alegreya-sans@3.0.10/700.css");
 
 @import url("juliamono.css");
-
+@import url("vollkorn.css");
 /* @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap"); */
 @import url("https://cdn.jsdelivr.net/npm/fontsource-lato@3.0.9/400.css");
 
@@ -51,7 +46,7 @@ main {
     flex: 1;
 
     max-width: calc(700px + 25px + 6px); /* 700px + both paddings */
-    padding-top: 20px;
+    padding-top: 0px;
     padding-bottom: 4rem;
     padding-left: 25px;
     padding-right: 6px;
@@ -59,17 +54,21 @@ main {
     width: 100%;
 }
 
+body:not(.disable_ui) main {
+    padding-bottom: 16rem;
+}
+
 /* | main=25px+700px+6px=731px | pluto-helpbox=350px - 500px | */
 /* min-width: 731px+ */
 
-@media screen and (min-width: calc(700px + 25px + 6px + 350px)) and (max-width: calc(700px + 25px + 6px + 500px)) {
-    main {
+@media screen and (min-width: calc(700px + 25px + 6px)) and (max-width: calc(700px + 25px + 6px + 500px)) {
+    body:not(.disable_ui) main {
         margin-left: 0px;
         align-self: flex-start;
     }
 }
 @media screen and (min-width: calc(700px + 25px + 6px + 500px)) and (max-width: calc(700px + 25px + 6px + 500px + 500px)) {
-    main {
+    body:not(.disable_ui) main {
         margin-right: 500px;
         align-self: flex-end;
     }
@@ -97,6 +96,7 @@ pluto-output h4,
 pluto-output h5,
 pluto-output h6 {
     font-family: "Vollkorn", serif;
+    font-feature-settings: "lnum", "pnum";
     font-weight: 600;
     color: hsl(0, 0%, 12%);
     margin-block-start: 1rem;
@@ -193,12 +193,16 @@ pluto-output code {
     font-variant-ligatures: none;
 }
 
+pluto-output pre > code {
+    font-size: inherit;
+}
+
 pluto-output.rich_output code {
     padding: 3px;
     border-radius: 8px;
     background-color: #f2f2f2;
 }
-pluto-output.rich_output pre code {
+pluto-output.rich_output pre > code {
     padding: 0px;
 }
 
@@ -210,7 +214,13 @@ pluto-output pre {
     tab-size: 4;
     -moz-tab-size: 4; /* https://bugzilla.mozilla.org/show_bug.cgi?id=737785 */
     font-family: JuliaMono, monospace;
+    font-size: 0.75rem;
     font-variant-ligatures: none;
+}
+
+pluto-display pre {
+    white-space: pre;
+    word-break: normal;
 }
 
 pluto-output hr {
@@ -225,7 +235,7 @@ pluto-output blockquote {
     margin-right: 1rem;
 }
 
-pluto-output.rich_output pre,
+pluto-output.rich_output pre:not(.no-block),
 pluto-output blockquote {
     margin-block-start: 0px;
     margin-block-end: var(--pluto-cell-spacing);
@@ -244,6 +254,7 @@ pluto-output div.admonition {
 }
 pluto-output div.admonition .admonition-title {
     font-family: "Vollkorn", sans-serif;
+    font-feature-settings: "lnum", "pnum";
     color: white;
     font-weight: 600;
     margin-block-end: 0px;
@@ -330,6 +341,12 @@ pluto-output div.footnote p:last-child {
     padding-bottom: 0px;
 }
 
+pluto-output.scroll_y {
+    max-height: 80vh;
+    max-height: 400px;
+    overflow: auto;
+}
+
 pluto-output table {
     border-collapse: collapse;
     border: 2px solid rgba(0, 0, 0, 0.2);
@@ -349,6 +366,9 @@ pluto-output table > tbody td {
     font-size: 0.75rem;
     font-variant-ligatures: none;
 }
+pluto-output table > tbody td code {
+    font-size: 0.75rem;
+}
 
 pluto-output table td,
 pluto-output table th {
@@ -357,6 +377,19 @@ pluto-output table th {
 
 pluto-output table > tbody tr:hover {
     background-color: rgba(224, 203, 158, 0.15);
+}
+pluto-output table pre {
+    white-space: pre;
+}
+
+pluto-output kbd,
+kbd {
+    font-family: "Space Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: -0.7px;
+    border: 1px solid #dfdfdf;
+    padding: 0px 2px;
+    border-radius: 3px;
 }
 
 /* HEADER */
@@ -367,7 +400,7 @@ body > header {
     width: 100%;
     min-height: 60px;
 
-    z-index: 5;
+    z-index: 50;
     background-color: white;
     transform: translateY(0px);
     transition: background-color 0.5s ease-in-out, transform 0.25s cubic-bezier(0.18, 0.89, 0.49, 1.13);
@@ -378,14 +411,62 @@ body > header {
     font-size: 0.75rem;
 }
 
-body.loading > header {
-    background-color: hsla(290, 10%, 59%, 0.14);
-}
-
 body > header.show_export {
     position: sticky;
     top: 0;
     transform: translateY(130px);
+}
+
+div#findreplace {
+    /*  margin: 10px; */
+    position: fixed;
+    top: 64px;
+    right: 8px;
+    z-index: 5;
+}
+
+aside#findreplace_container {
+    display: none;
+    flex-direction: row;
+    padding-right: 25px;
+}
+
+aside#findreplace_container.show_findreplace {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 4px;
+    box-shadow: 4px #00000010;
+}
+
+aside#findreplace_container > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+    padding-right: 5px;
+}
+aside#findreplace_container > div > input {
+    border: 1px solid #818181;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 3px 0 0 3px;
+    border-right: none;
+}
+aside#findreplace_container > div > button {
+    cursor: pointer;
+    background: #651b82 /*#896c6c*/;
+    border-radius: 0 3px 3px 0;
+    border: 1px solid #651b82 /*#896c6c*/;
+    color: white;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.75rem;
+    margin-right: 2px;
+}
+aside#findreplace_container > div > input#value_input.findreplace_invalid_regex {
+  border: 2px red solid;
 }
 
 aside#export {
@@ -395,7 +476,7 @@ aside#export {
     height: 130px;
     background: rgb(60, 67, 101);
     color: rgba(255, 255, 255, 0.7);
-    transform: translateY(-100%);
+    transform: translateY(-101%);
 }
 aside#export::before {
     content: "";
@@ -450,6 +531,7 @@ div.export_title {
 a.export_card header {
     margin-block: 0px;
     font-family: "Vollkorn", sans;
+    font-feature-settings: "lnum", "pnum";
     font-size: 1rem;
 }
 a.export_card section {
@@ -460,7 +542,7 @@ aside#export button.toggle_export {
     margin-left: auto;
     height: 60px;
 }
-body.loading button.toggle_export {
+body.static_preview button.toggle_export {
     display: none;
 }
 
@@ -478,6 +560,7 @@ nav#at_the_top {
     min-height: 60px;
     display: flex;
     flex-direction: row;
+    z-index: 100;
 }
 
 nav#at_the_top > * {
@@ -486,8 +569,15 @@ nav#at_the_top > * {
     margin: 10px 0px;
 }
 
+nav#at_the_top > .flex_grow_1 {
+    flex-grow: 1;
+}
+nav#at_the_top > .flex_grow_2 {
+    flex-grow: 2;
+}
+
 nav#at_the_top > a {
-    margin-right: 5rem;
+    /* margin-right: 5rem; */
 }
 
 nav#at_the_top img {
@@ -506,7 +596,7 @@ nav#at_the_top img#logo-small {
     display: none;
 }
 
-@media screen and (max-width: 680px) {
+@media (max-width: 800px) {
     nav#at_the_top img#logo-small {
         display: unset;
     }
@@ -514,12 +604,12 @@ nav#at_the_top img#logo-small {
         display: none;
     }
     nav#at_the_top > a {
-        margin-right: 1rem;
+        /* margin-right: 1rem; */
     }
 }
 
 nav#at_the_top > pluto-filepicker {
-    width: 0px;
+    width: 210px;
     flex-grow: 1;
 
     display: flex;
@@ -593,7 +683,7 @@ li.dir.CodeMirror-hint:before {
     color: black;
 }
 
-@media screen and (any-pointer: fine) {
+@media (any-pointer: fine) {
     nav#at_the_top > pluto-filepicker .CodeMirror {
         border: 2px solid transparent;
         border-right: none;
@@ -614,46 +704,124 @@ li.dir.CodeMirror-hint:before {
     }
 }
 
+body.binder > header > nav#at_the_top > pluto-filepicker > * {
+    display: none;
+}
+body.binder > header > nav#at_the_top > pluto-filepicker > a {
+    display: block;
+    font-size: 16px;
+    font-family: JuliaMono, monospace;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+body.binder.loading > header,
+body.process_dead > header,
 body.disconnected > header {
-    background-color: rgba(255, 169, 114, 0.56);
     position: sticky;
     top: 0;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
-nav:after {
+body.process_dead > header {
+    background-color: rgb(230 88 46 / 38%);
+}
+body.loading > header {
+    background-color: hsla(290, 10%, 80%, 0.5);
+}
+body.disconnected > header {
+    background-color: rgba(255, 169, 114, 0.56);
+}
+body.binder.loading > header {
+    background-color: hsl(51deg 64% 90% / 50%);
+}
+
+nav#at_the_top > #process_status {
     font-size: 1rem;
     font-weight: 500;
-    padding: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+    background: white;
+    border-radius: 10px;
+    z-index: 10;
+    margin-left: 1em;
 }
 
-body.disconnected > header > nav#at_the_top:after {
-    content: "Reconnecting...";
+nav#at_the_top > #process_status:empty {
+    display: none;
 }
 
-body.loading > header > nav:after {
-    content: "Loading...";
+loading-bar {
+    height: 6px;
+    width: 10vw;
+    background-color: #b1c9dd;
+    position: fixed;
+    top: 0px;
+    display: block;
+    transition: width cubic-bezier(0.14, 0.71, 0, 0.99) 10s, opacity linear 0.5s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.binder.loading #binder_spinners {
+    opacity: 0.25;
+}
+body.binder.loading loading-bar {
+    opacity: 1;
 }
 
 /* PREAMBLE */
 
 main > preamble {
     display: flex;
-    position: relative;
     height: 20px;
+    position: sticky;
+    top: 5px;
+    margin-top: 5px;
+    padding-right: 5px;
+    z-index: 200;
+    pointer-events: none;
 }
 
-main > preamble > button {
-    display: none;
-    right: 0px;
+main > preamble #saveall-container {
+    margin-left: auto;
+    pointer-events: all;
+    right: min(0px, 700px + 25px - 100vw);
+    position: relative;
+    background: #ffffff;
+    padding: 5px 8px;
+    border: 3px solid #e3e3e3;
+    border-radius: 12px;
+    height: 35px;
+    font-family: "Segoe UI Emoji", "Roboto Mono", monospace;
+    font-size: 0.75rem;
 }
 
-main > preamble > button > span::after {
-    content: "Submit all changes";
-    display: block;
+@media screen and (min-width: calc(700px + 25px + 6px + 500px)) {
+    main > preamble #saveall-container {
+        right: -500px;
+    }
+}
+
+main > preamble #saveall-container.saving,
+main > preamble #saveall-container.saved {
+    border-color: transparent;
+}
+
+main > preamble #saveall-container.saving > span,
+main > preamble #saveall-container.saved > span {
+    opacity: 0.5;
+}
+
+main > preamble span.saved-icon::after,
+main > preamble span.saving-icon::after {
+    content: "";
+    display: inline-block;
     padding-right: 20px;
-
+    /* width: 17px; */
+    height: 17px;
+    margin-bottom: -3px;
     background-size: 17px 17px;
     background-image: url(https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.0.0/src/svg/sync-circle-outline.svg);
     background-repeat: no-repeat;
@@ -661,9 +829,23 @@ main > preamble > button > span::after {
     background-position-y: 1px;
 }
 
-body.code_differs > main > preamble > button {
-    display: block;
+main > preamble span.saved-icon::after {
+    background-image: url(https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.0.0/src/svg/checkmark-outline.svg);
 }
+main > preamble button {
+    position: relative;
+}
+
+#saveall-container .only-on-hover {
+    display: none;
+}
+#saveall-container:hover .only-on-hover {
+    display: inline;
+}
+
+/* body:not(.code_differs) > main > preamble #saveall-container {
+    display: none;
+} */
 
 /* CELL */
 
@@ -683,6 +865,11 @@ pluto-output {
     overflow-x: auto;
 
     background-color: white;
+}
+
+.scroll_y {
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 pluto-output:focus {
@@ -713,14 +900,22 @@ pluto-output > assignee:empty {
 
 pluto-output > div {
     flex-shrink: 0;
-    overflow-x: auto;
     overflow-y: hidden;
+}
+
+pluto-output div.raw-html-wrapper {
+    display: contents;
 }
 
 pluto-output:not(.rich_output) > div > pre {
     display: flex;
 }
 
+/* as embedded display: */
+
+pluto-display > div {
+    display: inline-block;
+}
 /* SELECTION */
 
 pluto-cell.selected {
@@ -775,7 +970,7 @@ pluto-cell:hover > pluto-output > div::-webkit-scrollbar-thumb {
 pluto-input .CodeMirror {
     height: auto !important;
     width: auto;
-    z-index: 2;
+    z-index: 20;
     border-bottom-right-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-left: none;
@@ -790,12 +985,8 @@ pluto-input .CodeMirror-empty {
     color: rgba(0, 0, 0, 0.15);
 }
 
-pluto-cell.code_folded > pluto-input {
+pluto-cell:not(.show_input) > pluto-input {
     display: none;
-}
-
-pluto-cell.code_differs > pluto-input {
-    display: unset;
 }
 
 pluto-cell.code_differs > pluto-input > .CodeMirror {
@@ -805,7 +996,7 @@ pluto-cell.code_differs > pluto-input > .CodeMirror {
 
 /* UI */
 
-preamble > button,
+preamble button,
 pluto-cell > button,
 pluto-input > button,
 pluto-runarea > button,
@@ -820,8 +1011,9 @@ nav#slide_controls > button {
     cursor: pointer;
     /* color: hsl(204, 86%, 35%); */
     color: black;
-    font-family: "Segoe UI Emoji", JuliaMono, monospace;
-    z-index: 3;
+    font-family: "Segoe UI Emoji", "Roboto Mono", monospace;
+    font-size: 0.75rem;
+    z-index: 30;
     /* CodeMirror is 2 */
 }
 
@@ -879,6 +1071,8 @@ pluto-cell.code_folded > pluto-shoulder > button > span::after {
 /* TRAFFIC LIGHT */
 
 pluto-trafficlight {
+    /* --patternHeight is derived from the pattern length (16px) div sin(45deg) = 16px * sqrt(2)  */
+    --patternHeight: 22.62741699797px;
     box-sizing: content-box;
     margin-right: -1px; /* fix a visual glitch of imperfect alignment */
     width: 4px;
@@ -891,22 +1085,43 @@ pluto-trafficlight {
     border-bottom-left-radius: 4px;
     border-left-color: rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+pluto-trafficlight::after {
+    content: "";
+    /* Calc needs units everywhere to work */
+    top: calc(0px - 10 * var(--patternHeight));
+    left: 0;
+    width: 100%;
+    height: calc(100% + 10 * var(--patternHeight));
+    position: absolute;
+    opacity: 0;
+}
+
+/*
+ * This class will toggle animation.
+ * Other classes will make animation visible with opacity (which is CHEAP?)
+ *
+ */
+pluto-cell.activate_animation pluto-trafficlight::after {
+    animation: 10s linear 0s infinite running scrollbackground;
 }
 
 /* in ascending order of severity: */
-
-pluto-cell.code_folded > pluto-trafficlight {
+/* we need the :not(.___) to fix our CSS selector specificity when `body.disable_ui` */
+body:not(.___) pluto-cell.code_folded > pluto-trafficlight {
     background: none;
 }
 
 @media screen and (any-pointer: fine) {
-    pluto-cell:hover > pluto-trafficlight {
+    body:not(.disable_ui) pluto-cell:hover > pluto-trafficlight {
         background: rgba(0, 0, 0, 0.1);
         transition: background 0.05s ease-in;
     }
 }
 
-pluto-cell:focus-within > pluto-trafficlight {
+body:not(.___) pluto-cell:focus-within > pluto-trafficlight {
     border-left-width: 4px;
     border-left-style: solid;
     margin-left: -4px;
@@ -914,39 +1129,47 @@ pluto-cell:focus-within > pluto-trafficlight {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-pluto-cell.selected > pluto-trafficlight {
+body:not(.___) pluto-cell.selected > pluto-trafficlight {
     background: rgba(40, 78, 189, 0.4);
     border-left-color: rgba(40, 78, 189, 0.4);
     background-clip: content-box;
 }
 
-pluto-cell.code_differs > pluto-trafficlight {
+body:not(.___) pluto-cell.code_differs > pluto-trafficlight {
     background: hsla(46, 70%, 37%, 0.68);
     border-left-color: hsla(46, 70%, 37%, 0.68);
     background-clip: content-box;
 }
 
-pluto-cell.errored > pluto-trafficlight {
+body:not(.___) pluto-cell.errored > pluto-trafficlight {
     background: hsla(0, 70%, 80%, 0.7);
     border-left-color: hsla(0, 70%, 80%, 0.7);
     background-clip: content-box;
 }
 
-pluto-cell.queued > pluto-trafficlight {
+body:not(.___) pluto-cell.queued > pluto-trafficlight::after {
     background: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 16px);
     background-clip: content-box;
-    animation: 1000s linear 0s infinite running scrollbackground;
-    background-size: 4px 22.62741699797px; /* 16 * sqrt(2) */
+    /* [1]
+    Queued, Running, Errored are really fast changing props.
+    We make sure to on-off the gradients with opacity and not toggle the animation
+    (Which is running all this time)
+    Make sure the browser won't skip creating a stacking context
+    https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+    https://www.w3.org/TR/css-color-3/#transparency
+    */
+    opacity: 0.99;
+    background-size: 4px var(--patternHeight);
 }
 
-pluto-cell.running > pluto-trafficlight {
+body:not(.___) pluto-cell.running > pluto-trafficlight::after {
     background: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.2) 8px, rgba(0, 0, 0, 0.2) 16px);
     background-clip: content-box;
-    animation: 1000s linear 0s infinite running scrollbackground;
-    background-size: 4px 22.62741699797px; /* 16 * sqrt(2) */
+    opacity: 0.99; /* [1] */
+    background-size: 4px var(--patternHeight);
 }
 
-pluto-cell.queued.errored > pluto-trafficlight {
+body:not(.___) pluto-cell.queued.errored > pluto-trafficlight::after {
     background: repeating-linear-gradient(
         -45deg,
         hsla(0, 70%, 80%, 0.7),
@@ -955,24 +1178,55 @@ pluto-cell.queued.errored > pluto-trafficlight {
         hsla(0, 70%, 80%, 0.05) 16px
     );
     background-clip: content-box;
-    animation: 1000s linear 0s infinite running scrollbackground;
-    background-size: 4px 22.62741699797px; /* 16 * sqrt(2) */
+    opacity: 0.99; /* [1] */
+    background-size: 4px var(--patternHeight); /* 16 * sqrt(2) */
 }
 
-pluto-cell.running.errored > pluto-trafficlight {
+body:not(.___) pluto-cell.running.errored > pluto-trafficlight::after {
     background: repeating-linear-gradient(-45deg, hsla(0, 100%, 80%, 1), hsla(0, 100%, 80%, 1) 8px, hsla(0, 70%, 80%, 0.7) 8px, hsla(0, 70%, 80%, 0.7) 16px);
     background-clip: content-box;
-    animation: 1000s linear 0s infinite running scrollbackground;
-    background-size: 4px 22.62741699797px; /* 16 * sqrt(2) */
+    opacity: 0.99; /* [1] */
+    background-size: 4px var(--patternHeight); /* 16 * sqrt(2) */
 }
 
+pluto-cell.drop_target {
+    position: relative;
+}
+
+pluto-cell.drop_target pluto-input::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    background-color: rgba(255, 255, 255, 0.75);
+    content: "+ Drop file here";
+}
+
+pluto-cell.drop_target.saving_file pluto-input::after {
+    content: "The 💾 File you dropped is being saved... ";
+    color: white;
+    background-color: rgba(3, 92, 151, 0.75);
+}
+
+pluto-cell.drop_target.drop_invalid pluto-input::after {
+    background-color: #ece5e5bf;
+    color: rgba(0, 0, 0, 0.85);
+    content: "Try dropping your file in an empty cell!";
+}
+
+/* Define --patternHeight for this keyframes animation to work! */
 @keyframes scrollbackground {
     0% {
-        background-position-y: 0px;
+        transform: translate(0px, 0px);
     }
     100% {
-        background-position-y: 22627.41699797px;
-        /* 16 * sqrt(2) */
+        transform: translate(0, calc(10 * var(--patternHeight)));
     }
 }
 
@@ -1002,7 +1256,7 @@ pluto-input > button > span {
         transition: opacity 0.25s ease-in-out;
     }
     button.toggle_export:hover,
-    preamble > button:hover,
+    preamble button:hover,
     pluto-cell > button:hover,
     pluto-cell > pluto-input > button:hover,
     pluto-cell > pluto-runarea > button:hover,
@@ -1125,12 +1379,8 @@ pluto-cell.queued > pluto-runarea > button.runcell > span::after {
     background-image: url(https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.0.0/src/svg/stop-circle-outline.svg);
 }
 
-pluto-cell.code_folded > pluto-runarea {
+pluto-cell:not(.show_input) > pluto-runarea {
     display: none;
-}
-
-pluto-cell.code_differs > pluto-runarea {
-    display: block;
 }
 
 pluto-cell:focus-within > pluto-runarea,
@@ -1177,10 +1427,10 @@ dropruler {
     bottom: 0px;
     height: 0px;
     width: 100%;
-    z-index: 5;
+    z-index: 50;
 }
 
-@media screen and (min-width: 500px) {
+@media (min-width: 500px) {
     #helpbox-wrapper {
         display: block;
     }
@@ -1235,6 +1485,9 @@ pluto-helpbox > header > input {
     font-weight: inherit;
     font-size: inherit;
     border: none;
+}
+pluto-helpbox.notfound > header > input {
+    color: rgb(139, 139, 139);
 }
 pluto-helpbox > header > input:focus {
     outline: none;
@@ -1328,7 +1581,7 @@ footer {
     font-size: 0.75rem;
     background-color: #d7dcd3;
     color: #333333;
-    z-index: 7;
+    z-index: 70;
 }
 
 footer form {
@@ -1368,6 +1621,7 @@ footer a {
 }
 
 footer input {
+    margin: 0px;
     border: 2px solid #818181;
     font-family: inherit;
     font-size: inherit;
@@ -1378,6 +1632,7 @@ footer input {
 
 body > header pluto-filepicker button,
 footer button {
+    margin: 0px;
     background: #896c6c;
     border-radius: 0 3px 3px 0;
     border: 2px solid #896c6c;
@@ -1398,7 +1653,7 @@ footer button {
 /* UNDO DELETED CELL */
 
 nav#undo_delete {
-    z-index: 20;
+    z-index: 1000;
     display: block;
     position: fixed;
     bottom: 0px;
@@ -1458,7 +1713,7 @@ body.presentation > nav#slide_controls {
     position: fixed;
     bottom: 0px;
     right: 0px;
-    z-index: 10;
+    z-index: 100;
 }
 
 body > nav#slide_controls > button {
@@ -1482,9 +1737,17 @@ body > nav#slide_controls > button.next > span::after {
 
 /* CODEMIRROR HINTS */
 
+.CodeMirror-hints {
+    max-height: calc(20 * 16px);
+    box-sizing: content-box;
+    z-index: 100;
+}
+
 li.CodeMirror-hint {
     /* this is the line height rounded to an integer to prevent jiggle */
     height: 16px;
+    /* font-size: 16px; */
+    line-height: 16px;
 }
 
 li.CodeMirror-hint.c_notexported {
@@ -1570,7 +1833,7 @@ pluto-cell.code_differs .cm-s-default .CodeMirror-gutters {
     color: #8d86875e;
 }
 
-.cm-s-default .CodeMirror-linenumber::before {
+.cm-s-default .CodeMirror-linenumber::after {
     content: "⋅";
     font-size: 0.75rem;
 }
@@ -1583,7 +1846,7 @@ pluto-cell.code_differs .cm-s-default .CodeMirror-gutters {
     font-size: 0.75rem;
 }
 
-.cm-s-default .CodeMirror-linenumber:hover::before {
+.cm-s-default .CodeMirror-linenumber:hover::after {
     font-size: 0px;
 }
 
@@ -1659,7 +1922,7 @@ li.CodeMirror-hint.c_Array::before,
 
 .cm-s-default span.cm-error {
     background: #ef6155;
-    color: #776e71;
+    color: #f7f7f7;
 }
 
 .cm-s-default .CodeMirror-activeline-background {

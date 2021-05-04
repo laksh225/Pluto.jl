@@ -15,7 +15,10 @@ export declare class Component<State = {}> {
 
 export declare function html(strings: TemplateStringsArray, ...interpolations: Array<any>): ReactElement
 
-export declare function render(jsx: ValidRenderResult, element: HTMLElement)
+export declare function render(vnode: ValidRenderResult, parent: Element | Document | ShadowRoot | DocumentFragment, replaceNode?: Element | Text): void
+export declare function hydrate(vnode: ValidRenderResult, parent: Element | Document | ShadowRoot | DocumentFragment): void
+export declare function cloneElement(vnode: ReactElement, props?: any, ...children: ValidRenderResult[]): ReactElement
+export declare function h(type: string, props: any, ...children: any[]): ReactElement
 
 declare function SetState<T>(value: T): void
 declare function SetState<T>(mutator: (value: T) => T): void
@@ -32,3 +35,11 @@ type EffectFn = () => void | UnsubscribeFn
 
 export declare function useEffect(fn: EffectFn, deps?: Array<any>): void
 export declare function useLayoutEffect(fn: EffectFn, deps?: Array<any>): void
+
+declare class ReactContextProvider<T> {}
+declare class ReactContext<T> {
+    Provider: ReactContextProvider<T>
+    Consumer: any // You're on your own with this one
+}
+export declare function createContext<T>(initialValue: T | void): ReactContext<T>
+export declare function useContext<T>(context: ReactContext<T>): T

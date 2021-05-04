@@ -1,4 +1,5 @@
-import { html } from "../imports/Preact.js"
+import { PlutoContext } from "../common/PlutoContext.js"
+import { html, useContext } from "../imports/Preact.js"
 
 const StackFrameFilename = ({ frame, cell_id }) => {
     const sep_index = frame.file.indexOf("#==#")
@@ -10,6 +11,7 @@ const StackFrameFilename = ({ frame, cell_id }) => {
                 window.dispatchEvent(
                     new CustomEvent("cell_focus", {
                         detail: {
+                            reason: "Go to Error Line", // Just docs
                             cell_id: frame_cell_id,
                             line: frame.line - 1, // 1-based to 0-based index
                         },
@@ -22,7 +24,7 @@ const StackFrameFilename = ({ frame, cell_id }) => {
         </a>`
         return html`<em>${a}</em>`
     } else {
-        return html`<em>${frame.file}:${frame.line}</em>`
+        return html`<em title=${frame.path}>${frame.file}:${frame.line}</em>`
     }
 }
 
@@ -35,7 +37,8 @@ const Funccall = ({ frame }) => {
     }
 }
 
-export const ErrorMessage = ({ msg, stacktrace, cell_id, requests }) => {
+export const ErrorMessage = ({ msg, stacktrace, cell_id }) => {
+    let pluto_actions = useContext(PlutoContext)
     const rewriters = [
         {
             pattern: /syntax: extra token after end of expression/,
@@ -44,7 +47,7 @@ export const ErrorMessage = ({ msg, stacktrace, cell_id, requests }) => {
                     href="#"
                     onClick=${(e) => {
                         e.preventDefault()
-                        requests.wrap_remote_cell(cell_id, "begin")
+                        pluto_actions.wrap_remote_cell(cell_id, "begin")
                     }}
                     >Wrap all code in a <em>begin ... end</em> block.</a
                 >`
@@ -55,7 +58,7 @@ export const ErrorMessage = ({ msg, stacktrace, cell_id, requests }) => {
                             href="#"
                             onClick=${(e) => {
                                 e.preventDefault()
-                                requests.split_remote_cell(cell_id, boundaries, true)
+                                pluto_actions.split_remote_cell(cell_id, boundaries, true)
                             }}
                             >Split this cell into ${boundaries.length} cells</a
                         >, or
